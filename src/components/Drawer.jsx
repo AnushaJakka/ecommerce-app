@@ -14,10 +14,9 @@ const CustomDrawer = ({ open, onClose, categories, selectedCategory, onSelectCat
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
- 
   const handleCategoryClick = (category) => {
-    onSelectCategory(category); 
-    if (isMobile) onClose(); 
+    onSelectCategory(category);
+    if (isMobile) onClose();
   };
 
   return (
@@ -30,12 +29,12 @@ const CustomDrawer = ({ open, onClose, categories, selectedCategory, onSelectCat
           width: 250,
           boxSizing: "border-box",
           top: isMobile ? "0" : "64px",
-           backgroundColor:"rgba(216, 25, 223, 0.15)"
+          backgroundColor: "#1c2529",
         },
       }}
     >
       <Box sx={{ p: 2 }}>
-        <Typography variant="h6" sx={{ mb: 2, color: "#800080" }}>
+        <Typography variant="h6" sx={{ mb: 2, color: "#FF0000" }}>
           CATEGORIES
         </Typography>
         <List>
@@ -43,22 +42,41 @@ const CustomDrawer = ({ open, onClose, categories, selectedCategory, onSelectCat
             selected={!selectedCategory}
             onClick={() => handleCategoryClick(null)}
             sx={{
-              "&.Mui-selected": { backgroundColor: "rgba(17, 236, 217, 0.15)" },
+              "&.Mui-selected": {
+                backgroundColor: "rgba(0, 0, 255, 0.1)",
+              },
             }}
           >
-            <ListItemText primary="All Categories" />
+            <ListItemText
+              primary="All Categories"
+              primaryTypographyProps={{
+                sx: {
+                  color: "#fff",
+                  fontWeight: "bold",
+                },
+              }}
+            />
           </ListItemButton>
-
           {categories.map((category) => (
             <ListItemButton
               key={category}
               selected={selectedCategory === category}
               onClick={() => handleCategoryClick(category)}
               sx={{
-                "&.Mui-selected": { backgroundColor: "rgba(16, 157, 222, 0.15)" },
+                "&.Mui-selected": {
+                  backgroundColor: "rgba(0, 0, 255, 0.1)",
+                },
               }}
             >
-              <ListItemText primary={category} />
+              <ListItemText
+                primary={category}
+                primaryTypographyProps={{
+                  sx: {
+                    color: "#fff",
+                    fontWeight: "bold",
+                  },
+                }}
+              />
             </ListItemButton>
           ))}
         </List>

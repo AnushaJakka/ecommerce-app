@@ -113,7 +113,7 @@ const ProductsList = () => {
             onBack={() => setSelectedProduct(null)}
             onAddToCart={addToCart}
           />
-        ) : loading ? ( // Show Skeleton Loading
+        ) : loading ? ( 
           <Grid container spacing={3}>
             {[...Array(8)].map((_, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -127,9 +127,9 @@ const ProductsList = () => {
         ) : (
           Object.entries(groupedProducts).map(([category, products]) => (
             <Box key={category} sx={{ mb: 4 }}>
-              <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
+              {/* <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
                 {category}
-              </Typography>
+              </Typography> */}
               <Grid container spacing={3}>
                 {products.map((product) => (
                   <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>

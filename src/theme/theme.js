@@ -23,7 +23,8 @@ const theme = createTheme({
       color: "#2A4D5B",
     },
     body1: {
-      color: "#666",
+      color: "black",
+      fontWeight:"bold",
     },
   },
   components: {

@@ -28,8 +28,6 @@ const CustomAppBar = ({ cartLength, onToggleCart, searchQuery, onSearchChange, c
 
   const handleDrawerToggle = () => setDrawerOpen(!drawerOpen);
   const handleCloseDrawer = () => setDrawerOpen(false);
-
- 
   const handleOpenUserMenu = (event) => setAnchorElUser(event.currentTarget);
   const handleCloseUserMenu = () => setAnchorElUser(null);
 
@@ -47,8 +45,6 @@ const CustomAppBar = ({ cartLength, onToggleCart, searchQuery, onSearchChange, c
               <Box component="span" color="secondary.main">E</Box>COMMERCE
             </Typography>
           </Box>
-
-          
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             {!isMobile && (
               <Paper component="form" sx={{ width: 300, borderRadius: 2, border: "1px solid #ddd" }}>
@@ -63,15 +59,11 @@ const CustomAppBar = ({ cartLength, onToggleCart, searchQuery, onSearchChange, c
                 </IconButton>
               </Paper>
             )}
-
-            {/* Cart Icon */}
             <IconButton color="inherit" onClick={onToggleCart}>
               <Badge badgeContent={cartLength} color="secondary">
                 <ShoppingCart />
               </Badge>
             </IconButton>
-
-            {/* Profile Menu */}
             <Tooltip title="Profile">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="User" src="/avatar.avif" />
@@ -92,8 +84,6 @@ const CustomAppBar = ({ cartLength, onToggleCart, searchQuery, onSearchChange, c
           </Box>
         </Toolbar>
       </AppBar>
-
-      
       <CustomDrawer
         open={drawerOpen}
         onClose={handleCloseDrawer}
