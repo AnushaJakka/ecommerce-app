@@ -33,7 +33,7 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
     <div>
       <Card
         sx={{
-          height: "100%",
+          height: "500px", 
           display: "flex",
           flexDirection: "column",
           transition: "transform 0.2s",
@@ -43,7 +43,11 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
           },
         }}
       >
-        <Box sx={{ position: "relative" }}>
+        <Box sx={{ 
+          position: "relative",
+          height: "200px", 
+          flexShrink: 0 
+        }}>
           <CardMedia
             component="img"
             height="200"
@@ -73,37 +77,64 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
           />
         </Box>
 
-        <CardContent sx={{ flexGrow: 1 }}>
-          <Typography gutterBottom variant="h6">
-            {product.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-            {product.brand}
-          </Typography>
-
-          <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
-            <Rating value={product.rating} precision={0.5} size="small" readOnly />
-            <Typography variant="body2">({product.rating}/5)</Typography>
-          </Stack>
-
-          <Stack direction="row" spacing={2} alignItems="center">
-            <Typography variant="h6" color="primary">
-              ${product.price}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ textDecoration: "line-through" }}
+        <CardContent sx={{ 
+          flex: 1,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          overflow: "hidden" 
+        }}>
+          <Box>
+            <Typography 
+              gutterBottom 
+              variant="h6"
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                display: "-webkit-box",
+                WebkitLineClamp: 2,
+                WebkitBoxOrient: "vertical",
+              }}
             >
-              $
-              {(
-                product.price /
-                (1 - product.discountPercentage / 100)
-              ).toFixed(2)}
+              {product.title}
             </Typography>
-          </Stack>
+            <Typography 
+              variant="body2" 
+              color="text.secondary" 
+              sx={{ 
+                mb: 1,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
+              }}
+            >
+              {product.brand}
+            </Typography>
 
-          <Box sx={{ mt: 2, display: "flex", gap: 1 }}>
+            <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+              <Rating value={product.rating} precision={0.5} size="small" readOnly />
+              <Typography variant="body2">({product.rating}/5)</Typography>
+            </Stack>
+
+            <Stack direction="row" spacing={2} alignItems="center">
+              <Typography variant="h6" color="primary">
+                ${product.price}
+              </Typography>
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ textDecoration: "line-through" }}
+              >
+                $
+                {(
+                  product.price /
+                  (1 - product.discountPercentage / 100)
+                ).toFixed(2)}
+              </Typography>
+            </Stack>
+          </Box>
+
+          <Box sx={{ mt: 1, display: "flex", gap: 1 }}>
             <Button
               variant="contained"
               fullWidth

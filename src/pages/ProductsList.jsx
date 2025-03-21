@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Grid, Box, Typography, Skeleton } from "@mui/material";
+import { Box, Typography, Skeleton } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme/theme";
 import CustomAppBar from "../components/AppBar";
@@ -39,12 +39,6 @@ const ProductsList = () => {
     return matchesCategory && matchesSearch;
   });
 
-  const groupedProducts = filteredProducts.reduce((acc, product) => {
-    if (!acc[product.category]) acc[product.category] = [];
-    acc[product.category].push(product);
-    return acc;
-  }, {});
-
   const addToCart = (product) => {
     const existingItem = cart.find((item) => item.id === product.id);
     if (existingItem) {
@@ -72,7 +66,7 @@ const ProductsList = () => {
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
-    setSelectedProduct(null); 
+    setSelectedProduct(null);
   };
 
   if (error)
@@ -97,7 +91,7 @@ const ProductsList = () => {
         sx={{
           flexGrow: 1,
           p: 3,
-          ml: { xs: 0, sm: "280px" }, 
+          ml: { xs: 0, sm: "280px" },
           mt: "64px",
         }}
       >
@@ -113,36 +107,49 @@ const ProductsList = () => {
             onBack={() => setSelectedProduct(null)}
             onAddToCart={addToCart}
           />
-        ) : loading ? ( 
-          <Grid container spacing={3}>
+        ) : loading ? (
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(4, 1fr)"
+              },
+              gap: 2,
+            }}
+          >
             {[...Array(8)].map((_, index) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <Skeleton variant="rectangular" width="100%" height={200} sx={{ mb: 2 }} />
+              <Box key={index}>
+                <Skeleton variant="rectangular" height={200} sx={{ mb: 1 }} />
                 <Skeleton variant="text" width="60%" />
                 <Skeleton variant="text" width="40%" />
                 <Skeleton variant="text" width="80%" />
-              </Grid>
+              </Box>
             ))}
-          </Grid>
+          </Box>
         ) : (
-          Object.entries(groupedProducts).map(([category, products]) => (
-            <Box key={category} sx={{ mb: 4 }}>
-              {/* <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
-                {category}
-              </Typography> */}
-              <Grid container spacing={3}>
-                {products.map((product) => (
-                  <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
-                    <ProductCard
-                      product={product}
-                      onViewDetails={handleViewDetails}
-                      onAddToCart={addToCart}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </Box>
-          ))
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",         
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)", 
+              },
+              gap: 2,
+            }}
+          >
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onViewDetails={handleViewDetails}
+                onAddToCart={addToCart}
+              />
+            ))}
+          </Box>
         )}
       </Box>
     </ThemeProvider>

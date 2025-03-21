@@ -18,12 +18,15 @@ import {
   IconButton,
   useMediaQuery,
   useTheme,
+  Snackbar,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import Slide from "@mui/material/Slide";
 import MultiStepCheckout from "./MultiStepCheckout";
 
 const ProductDetailView = ({ product, onBack, onAddToCart }) => {
   const [buyNowOpen, setBuyNowOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false); 
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
@@ -35,6 +38,20 @@ const ProductDetailView = ({ product, onBack, onAddToCart }) => {
   const handleBuyNowClose = () => {
     setBuyNowOpen(false);
   };
+
+  const handleAddToCart = () => {
+    onAddToCart(product); 
+    setSnackbarOpen(true); 
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false); 
+  };
+
+  
+  function SlideTransition(props) {
+    return <Slide {...props} direction="up" />;
+  }
 
   return (
     <>
@@ -177,10 +194,20 @@ const ProductDetailView = ({ product, onBack, onAddToCart }) => {
               </Box>
 
               <Stack direction={isMobile ? "column" : "row"} spacing={2}>
-                <Button variant="contained" size="large" onClick={() => onAddToCart(product)} fullWidth={isMobile}>
+                <Button
+                  variant="contained"
+                  size="large"
+                  onClick={handleAddToCart} 
+                  fullWidth={isMobile}
+                >
                   Add to Cart
                 </Button>
-                <Button variant="outlined" size="large" onClick={handleBuyNowClick} fullWidth={isMobile}>
+                <Button
+                  variant="outlined"
+                  size="large"
+                  onClick={handleBuyNowClick}
+                  fullWidth={isMobile}
+                >
                   Buy Now
                 </Button>
               </Stack>
@@ -189,6 +216,23 @@ const ProductDetailView = ({ product, onBack, onAddToCart }) => {
         </Grid>
       </Card>
 
+      
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        TransitionComponent={SlideTransition}
+        message="Item added to cart!"
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+        sx={{
+          "& .MuiSnackbarContent-root": {
+            backgroundColor: theme.palette.success.main,
+            color: theme.palette.success.contrastText,
+          },
+        }}
+      />
+
+     
       <MultiStepCheckout open={buyNowOpen} onClose={handleBuyNowClose} product={product} />
     </>
   );

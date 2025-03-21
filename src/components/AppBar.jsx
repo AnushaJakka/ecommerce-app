@@ -66,7 +66,7 @@ const CustomAppBar = ({ cartLength, onToggleCart, searchQuery, onSearchChange, c
             </IconButton>
             <Tooltip title="Profile">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src="/avatar.avif" />
+                <Avatar alt="User" src="/images.png" />
               </IconButton>
             </Tooltip>
             <Menu

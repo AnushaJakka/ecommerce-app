@@ -37,6 +37,7 @@ import {
   AccountBalance,
   Payment,
 } from "@mui/icons-material";
+import PinIcon from '@mui/icons-material/Pin';
 
 const steps = ["Delivery Address", "Payment Options", "Order Summary"];
 
@@ -227,17 +228,25 @@ const MultiStepCheckout = ({ open, onClose, product }) => {
           onChange={(e) => setAddress({ ...address, state: e.target.value })}
           error={!!errors.state}
           helperText={errors.state}
+          
         />
       </Grid>
       <Grid item xs={12} sm={4}>
-      <TextField
-    fullWidth
-    label="State"
-    value={address.state}
-    onChange={(e) => setAddress({ ...address, state: e.target.value })}
-    error={!!errors.state}
-    helperText={errors.state}
-   
+        <TextField
+          fullWidth
+          label="Pincode"
+          type="number"
+          value={address.pincode}
+          onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
+          error={!!errors.pincode}
+          helperText={errors.pincode}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PinIcon/>
+              </InputAdornment>
+            ),
+          }}
         />
       </Grid>
     </Grid>

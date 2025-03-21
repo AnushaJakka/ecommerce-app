@@ -34,23 +34,19 @@ const CustomDrawer = ({ open, onClose, categories, selectedCategory, onSelectCat
       }}
     >
       <Box sx={{ p: 2 }}>
-        <Typography variant="h6" sx={{ mb: 2, color: "#FF0000" }}>
+        {/* <Typography variant="h6" sx={{ mb: 2, color: "#FF0000" }}>
           CATEGORIES
-        </Typography>
+        </Typography> */}
         <List>
           <ListItemButton
             selected={!selectedCategory}
             onClick={() => handleCategoryClick(null)}
-            sx={{
-              "&.Mui-selected": {
-                backgroundColor: "rgba(0, 0, 255, 0.1)",
-              },
-            }}
           >
             <ListItemText
               primary="All Categories"
               primaryTypographyProps={{
                 sx: {
+                  mt:5,
                   color: "#fff",
                   fontWeight: "bold",
                 },
@@ -74,6 +70,7 @@ const CustomDrawer = ({ open, onClose, categories, selectedCategory, onSelectCat
                   sx: {
                     color: "#fff",
                     fontWeight: "bold",
+                    textTransform:"capitalize"
                   },
                 }}
               />
