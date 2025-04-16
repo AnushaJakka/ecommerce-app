@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from '@mui/material/styles';
 import {
   Card,
   CardContent,
@@ -13,7 +14,12 @@ import {
 import Snackbar from '@mui/material/Snackbar';
 import Slide from '@mui/material/Slide';
 
+function SlideTransition(props) {
+  return <Slide {...props} direction="up" />;
+}
+
 const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
+  const theme = useTheme();
   const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   const handleAddToCartClick = () => {
@@ -25,18 +31,34 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
     setOpenSnackbar(false);
   };
 
-  function SlideTransition(props) {
-    return <Slide {...props} direction="up" />;
-  }
+  // Updated button styles
+  const containedButtonStyle = {
+    backgroundColor: theme.palette.primary.main,
+    color: theme.palette.primary.contrastText,
+    '&:hover': {
+      backgroundColor: theme.palette.primary.dark,
+    },
+    transition: 'all 0.3s ease',
+  };
+
+  const outlinedButtonStyle = {
+    borderColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.main,
+    '&:hover': {
+      backgroundColor: theme.palette.action.hover,
+      borderColor: theme.palette.secondary.dark,
+    },
+    transition: 'all 0.3s ease',
+  };
 
   return (
     <div>
       <Card
         sx={{
-          height: "500px", 
+          height: "100%",
           display: "flex",
           flexDirection: "column",
-          transition: "transform 0.2s",
+          transition: "transform 0.3s",
           "&:hover": {
             transform: "translateY(-4px)",
             boxShadow: 3,
@@ -45,15 +67,29 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
       >
         <Box sx={{ 
           position: "relative",
-          height: "200px", 
-          flexShrink: 0 
+          height: "200px",
+          width: "100%",
+          overflow: 'hidden'
         }}>
           <CardMedia
             component="img"
-            height="200"
+            
             image={product.thumbnail}
             alt={product.title}
-            sx={{ objectFit: "cover" }}
+            sx={{ 
+              width: '100%',
+              height: '100%',
+              objectFit: "contain",
+              objectPosition: "center",
+              transition: 'transform 0.3s ease',
+              '&:hover, &:active': {
+                transform: 'scale(1.20)'
+              },
+              '@media (pointer: coarse)': {
+                transition: 'transform 0.3s ease', // Faster transition for mobile
+                touchAction: 'manipulation' // Better touch handling
+              }
+            }}
           />
           <Chip
             label={`${product.discountPercentage}% OFF`}
@@ -63,6 +99,7 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
               position: "absolute",
               top: 8,
               left: 8,
+              fontWeight: 'bold'
             }}
           />
           <Chip
@@ -73,6 +110,7 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
               position: "absolute",
               top: 8,
               right: 8,
+              fontWeight: 'bold'
             }}
           />
         </Box>
@@ -82,27 +120,29 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          overflow: "hidden" 
         }}>
           <Box>
             <Typography 
               gutterBottom 
               variant="h6"
               sx={{
+                mt: 2,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 display: "-webkit-box",
                 WebkitLineClamp: 2,
                 WebkitBoxOrient: "vertical",
+                minHeight: '6px'
               }}
             >
               {product.title}
             </Typography>
+            
             <Typography 
               variant="body2" 
               color="text.secondary" 
               sx={{ 
-                mb: 1,
+                mb: 2,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap"
@@ -111,7 +151,7 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
               {product.brand}
             </Typography>
 
-            <Stack direction="row" spacing={1} sx={{ mb: 1 }}>
+            <Stack direction="row" spacing={1} sx={{ mb: 1, alignItems: 'center' }}>
               <Rating value={product.rating} precision={0.5} size="small" readOnly />
               <Typography variant="body2">({product.rating}/5)</Typography>
             </Stack>
@@ -134,11 +174,12 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
             </Stack>
           </Box>
 
-          <Box sx={{ mt: 1, display: "flex", gap: 1 }}>
+          <Box sx={{ mt: 2, display: "flex", gap: 1 }}>
             <Button
               variant="contained"
               fullWidth
               onClick={() => onViewDetails(product)}
+              sx={containedButtonStyle}
             >
               View Details
             </Button>
@@ -146,6 +187,7 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
               variant="outlined"
               fullWidth
               onClick={handleAddToCartClick}
+              sx={outlinedButtonStyle}
             >
               Add to Cart
             </Button>
@@ -159,6 +201,13 @@ const ProductCard = ({ product, onViewDetails, onAddToCart }) => {
         TransitionComponent={SlideTransition}
         autoHideDuration={2000}
         message="Item added to cart!"
+        sx={{
+          '& .MuiSnackbarContent-root': {
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.text.primary,
+            boxShadow: theme.shadows[4],
+          }
+        }}
       />
     </div>
   );
